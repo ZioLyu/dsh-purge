@@ -32,3 +32,10 @@ default-prompt-inject.md
 /official-harness-payload.7z
 *.asar
 *.asar.bak
+
+# 容器运行态：配置、会话、凭据、演练库、agent 产出的样本、pnpm 缓存
+docker/data/
+
+# Python 字节码（样本目录里会生成）
+__pycache__/
+*.pyc
