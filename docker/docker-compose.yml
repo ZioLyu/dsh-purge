@@ -19,6 +19,9 @@ services:
       - ./data:/root/.dsh
       # agent 的工作目录挂到宿主，生成的文件在 docker\data\test 下可直接看到
       - ./data/test:/root/test
+      # 宿主仓库以读写方式挂进容器：agent 可直接修改 /project 下的源码，
+      # 改完在 Windows 上用 git 审查、提交；/opt/dsh-purge 是构建快照，不要动
+      - ../:/project
     environment:
       DEEPSEEK_API_KEY: ${DEEPSEEK_API_KEY:-}
       RELAY_PORT: "3081"

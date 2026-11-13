@@ -9,4 +9,18 @@ DSH_PORT="${DSH_PORT:-3080}"
 socat TCP-LISTEN:"${RELAY_PORT}",fork,reuseaddr TCP:127.0.0.1:"${DSH_PORT}" &
 
 sleep 1
+
+# Re-sync code files from the build snapshot into the installed profile on every start,
+# so a rebuilt/reinstalled container never drifts from the repo.
+# Intentionally skip asset-table.js and default-prompt-inject.md: they are the sealed
+# slot and plaintext payload, and overwriting them would change the host's injected
+# prompt (and flip override status to stale).
+PROFILE_PLUGIN="${DSH_HOME:-/root/.dsh}/profiles/web/node_modules/dsh-purge"
+if [ -d "$PROFILE_PLUGIN/lib" ]; then
+  for f in lib/core.js lib/table-read.js client.js; do
+    if [ -f "/opt/dsh-purge/$f" ]; then
+      cp -f "/opt/dsh-purge/$f" "$PROFILE_PLUGIN/$f"
+    fi
+  done
+fi
 exec "$@"

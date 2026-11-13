@@ -203,6 +203,7 @@ window.__ModuleLoader__.load({ id: "dsh-purge", factory: (require) => {
 			"unpack.restarting": "补丁已写入。点「重启」后客户端会自己重新打开。",
 			"restart.fullQuit": "正在重启，客户端会自己重新打开。",
 			"warn.noInject": "官方始终用默认提示词。红队开了规则集就只用规则集；没开时用去掉 CTF 的默认提示词，再接红队操作。两边都空会提示必须添加。",
+			"warn.staleDefault": "盘上的注入正文是插件上一版默认，和当前内置默认不一致，下次启动会自动刷新成当前默认。你亲手写的稿不会被覆盖。",
 			"need.prompt": "提示词和规则集都是空的，必须先添加提示词，或启用一条有内容的规则集。",
 			"btn.restoreInject": "恢复默认",
 			"saved.restoreInject": "已恢复默认提示词",
@@ -543,6 +544,7 @@ window.__ModuleLoader__.load({ id: "dsh-purge", factory: (require) => {
 			"unpack.restarting": "Patches are written. Click Restart and the client opens again by itself.",
 			"restart.fullQuit": "Restarting. The client will open again by itself.",
 			"warn.noInject": "Official mode always uses the default prompt. Red team uses only the active rule set; otherwise it uses the default prompt without the CTF section, then the red team steps. If both are empty you will be asked to add a prompt.",
+			"warn.staleDefault": "The injected prompt on disk is an older plugin default and differs from the built-in one. It will be refreshed to the current default on next start. A prompt you wrote yourself is never overwritten.",
 			"need.prompt": "Both the prompt and the rule set are empty. Add a prompt, or enable a rule that has content.",
 			"btn.restoreInject": "Reset default",
 			"saved.restoreInject": "Default prompt restored",
@@ -1969,6 +1971,7 @@ body:not([data-ds-dark-theme]) .dshp-auth-ops button.primary{background:var(--ds
 				h("p", { className: "dshp-hint", style: { margin: "8px 0 0", color: "var(--dshp-mute)", fontSize: 12 } }, t("apply.hint")),
 				s && !s.ai_base ? h("p", { className: "dshp-hint", style: { margin: "8px 0 0", color: "var(--dshp-danger, #c44)", fontSize: 12 } }, hostText(t, "warn.noRoot", hostSurface)) : null,
 				s && s.ai_base && s.override_status === "missing" ? h("p", { className: "dshp-hint", style: { margin: "8px 0 0", color: "var(--dshp-mute)", fontSize: 12 } }, t("warn.noInject")) : null,
+				s && s.ai_base && s.override_status === "stale" ? h("p", { className: "dshp-hint", style: { margin: "8px 0 0", color: "var(--dshp-warn, #b8860b)", fontSize: 12 } }, t("warn.staleDefault")) : null,
 				askRestart ? h(RestartAsk, {
 					t: t,
 					theme: detectHostTheme(),
